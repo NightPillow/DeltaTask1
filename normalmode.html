@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Normal Mode</title>
+    <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@500&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-image: linear-gradient(to bottom right, rgb(140, 255, 255), rgb(255, 74, 74));
+            font-family: 'Rubik', sans-serif;
+        }
+
+        .button {
+            display: flex;
+            width: 84px;
+            height: 84px;
+            background-color: rgb(255, 255, 255);
+            margin: 2px;
+            padding: 2px;
+            border-width: 0px;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+
+        .grid {
+            display: flex;
+            width: 18.5%;
+            margin: 300px auto;
+        }
+
+        .heading h1 {
+            display: flex;
+            width: 16.7%;
+            font-size: 50px;
+            margin: 40px auto;
+            color: rgb(66, 66, 66);
+        }
+
+        #level {
+            display: flex;
+            width: 22.3%;
+            font-size: 50px;
+            margin: 20px auto;
+            color: rgb(66, 66, 66);
+        }
+
+        #start {
+            font-family: 'Rubik', sans-serif;
+            display: block;
+            width: 175px;
+            height: 40px;
+            background-color: rgb(255, 255, 255);
+            margin: 10px auto;
+            border-width: 0px;
+            border-radius: 10px;
+            cursor: pointer;
+            position: relative;
+            bottom: 240px;
+            font-size: 25px;
+        }
+
+        #back {
+            display: block;
+            width: 100px;
+            height: 40px;
+            background-color: rgb(255, 255, 255);
+            margin: 10px auto;
+            border-width: 0px;
+            border-radius: 10px;
+            cursor: pointer;
+            position: relative;
+            right:-884px;
+            top: -781px;
+            font-size: 25px;
+            text-align: center;
+            text-decoration: none;
+            color: black;
+        }
+
+        #start:hover {
+            background-color: rgb(124, 124, 124);
+        }
+    </style>
+</head>
+
+<body>
+    <header class="heading">
+        <h1>Normal Mode</h1>
+    </header>
+    <main class="main">
+        <div id="level">Game not started</div>
+        <div class="grid">
+            <div class="row" id="row1">
+                <button class="button" id="button1"></button>
+                <button class="button" id="button2"></button>
+                <button class="button" id="button3"></button>
+                <button class="button" id="button4"></button>
+            </div>
+            <div class="row" id="row2">
+                <button class="button" id="button5"></button>
+                <button class="button" id="button6"></button>
+                <button class="button" id="button7"></button>
+                <button class="button" id="button8"></button>
+            </div>
+            <div class="row" id="row3">
+                <button class="button" id="button9"></button>
+                <button class="button" id="button10"></button>
+                <button class="button" id="button11"></button>
+                <button class="button" id="button12"></button>
+            </div>
+            <div class="row" id="row4">
+                <button class="button" id="button13"></button>
+                <button class="button" id="button14"></button>
+                <button class="button" id="button15"></button>
+                <button class="button" id="button16"></button>
+            </div>
+        </div>
+        <button id="start">Start Game</div>
+        <div id="back"><a href="./index.html" style="text-decoration: none;">Back</a></div>
+    </main>
+    <script>
+        let start = document.getElementById("start");
+        start.addEventListener("click", start_game);
+        
+
+        user_inputted_list = [];
+        const collection = document.getElementsByClassName("button");
+        for (index = 0; index < collection.length; index++) {
+            collection[index].addEventListener("click", e => {
+                if(user_inputted_list.includes(parseInt(e.target.getAttribute('id').slice(6)))){
+                    end_game();
+                }
+                else{
+                    user_inputted_list.push(parseInt(e.target.getAttribute('id').slice(6)));
+                }
+            });
+        }
+
+        function display_button(num) {
+            document.getElementById("button" + num).style.backgroundColor = "#ccffff";
+        }
+
+        function normal_button(num) {
+            document.getElementById("button" + num).style.backgroundColor = "white";
+        }
+
+        function generate_random(random_numbers_list) {
+            flag = false;
+            while (flag != true) {
+                new_num = Math.floor((Math.random() * 16) + 1);
+                if (random_numbers_list.indexOf(new_num) === -1) {
+                    random_numbers_list.push(new_num);
+                    flag = true;
+                }
+            }
+            return random_numbers_list;
+        }
+
+        function display_stuff(level_number, random_numbers_list) {
+            let level = document.getElementById("level");
+            level.innerHTML = "level: " + level_number;
+            level.style.width="9.7%";
+            let num = 0;
+            const cancel_variable = setInterval(function () {
+                if (num == random_numbers_list.length - 1) {
+                    clearInterval(cancel_variable);
+                }
+                display_button(random_numbers_list[num]);
+                setTimeout(normal_button, 300, random_numbers_list[num]);
+                num++;
+            }, 400);
+        }
+        inital_display = false;
+
+        function continue_game() {
+            user_inputted_list = []
+            random_numbers_list = generate_random(random_numbers_list);
+            level_number++;
+            if(level_number<=15){
+                display_stuff(level_number, random_numbers_list);
+            }
+
+            const cancel_checking = setInterval(function () {
+                if (level_number>15){
+                    clearInterval(cancel_checking);
+                    let level = document.getElementById("level");
+                    level.innerHTML = "Game Not Started";
+                    level.style.width="23%";
+                    alert("All levels passed, Your Score=15");
+                }
+
+                else if (user_inputted_list.length > 0) {
+                    if ((random_numbers_list.includes(user_inputted_list[user_inputted_list.length - 1]))) {
+                        if (user_inputted_list.length == random_numbers_list.length) {
+                            clearInterval(cancel_checking);
+                            continue_game();
+                        }
+                    }
+                    else{
+                        clearInterval(cancel_checking);
+                        end_game();
+                    }
+                }
+            }, 400);
+
+        }
+
+        function end_game() {
+            let level = document.getElementById("level");
+            level.innerHTML = "Game Not Started";
+            level.style.width="23%";
+            alert("Level Failed, Your Score="+level_number);
+
+        }
+        function start_game() {
+            level_number=0;
+            random_numbers_list = [];
+            user_inputted_list = [];
+            random_numbers_list = generate_random(random_numbers_list);
+            display_stuff(level_number, random_numbers_list);
+
+            const cancel_check = setInterval(function () {
+                
+                if (user_inputted_list.length > 0) {
+                    if (!random_numbers_list.includes(user_inputted_list[user_inputted_list.length - 1])) {
+                        clearInterval(cancel_check);
+                        end_game();
+                    }
+                    else if (user_inputted_list.length == random_numbers_list.length) {
+                        
+                        clearInterval(cancel_check);
+                        continue_game();
+                    }
+                }
+            }, 400);
+        }
+
+
+    </script>
+</body>
+
+</html>

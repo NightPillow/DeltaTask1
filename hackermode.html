@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hacker Mode</title>
+    <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@500&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-image: linear-gradient(to bottom right, rgb(140, 255, 255), rgb(255, 74, 74));
+            font-family: 'Rubik', sans-serif;
+        }
+
+        .button {
+            width: 84px;
+            height: 84px;
+            background-color: rgb(255, 255, 255);
+            margin: 0px;
+            padding: 0px;
+            border-width: 0px;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+
+        .grid {
+            width: 29%;
+            margin: 300px auto;
+            position: relative;
+            bottom: 246px;
+        }
+
+        .heading h1 {
+            width: 16.7%;
+            font-size: 50px;
+            margin: 40px auto;
+            color: rgb(66, 66, 66);
+        }
+
+        #level {
+            width: 22.3%;
+            font-size: 50px;
+            margin: 20px auto;
+            color: rgb(66, 66, 66);
+        }
+
+        #time {
+            margin: 2px auto;
+            font-size: 20px;
+            width: 10.9%;
+            position: relative;
+            bottom: 521px;
+        }
+
+        #start {
+            font-family: 'Rubik', sans-serif;
+            display: block;
+            width: 175px;
+            height: 40px;
+            background-color: rgb(255, 255, 255);
+            margin: 10px auto;
+            border-width: 0px;
+            border-radius: 10px;
+            cursor: pointer;
+            position: relative;
+            bottom: 522px;
+            font-size: 25px;
+        }
+        #ledboard {
+            font-family: 'Rubik', sans-serif;
+            display: block;
+            width: 175px;
+            height: 40px;
+            background-color: rgb(255, 255, 255);
+            margin: 10px auto;
+            border-width: 0px;
+            border-radius: 10px;
+            cursor: pointer;
+            position: absolute;
+            left:10px;
+            top:27px;
+            font-size: 25px;
+            text-decoration: none;
+            color: black;
+        }
+        #back {
+            font-family: 'Rubik', sans-serif;
+            display: block;
+            width: 175px;
+            height: 40px;
+            background-color: rgb(255, 255, 255);
+            margin: 10px auto;
+            border-width: 0px;
+            border-radius: 10px;
+            cursor: pointer;
+            position: absolute;
+            right:10px;
+            top: 27px;
+            font-size: 25px;
+            text-decoration: none;
+            color: black;
+        }
+        
+        #start:hover {
+            background-color: rgb(124, 124, 124);
+        }
+    </style>
+</head>
+
+<body>
+    <header class="heading">
+        <h1>Hacker Mode</h1>
+    </header>
+    <main class="main">
+        <div id="level">Game not started</div>
+        <div class="grid">
+            <div class="row" id="row1">
+                <button class="button" id="button1"></button>
+                <button class="button" id="button2"></button>
+                <button class="button" id="button3"></button>
+                <button class="button" id="button4"></button>
+                <button class="button" id="button5"></button>
+                <button class="button" id="button6"></button>
+            </div>
+            <div class="row" id="row2">
+                <button class="button" id="button7"></button>
+                <button class="button" id="button8"></button>
+                <button class="button" id="button9"></button>
+                <button class="button" id="button10"></button>
+                <button class="button" id="button11"></button>
+                <button class="button" id="button12"></button>
+            </div>
+            <div class="row" id="row3">
+                <button class="button" id="button13"></button>
+                <button class="button" id="button14"></button>
+                <button class="button" id="button15"></button>
+                <button class="button" id="button16"></button>
+                <button class="button" id="button17"></button>
+                <button class="button" id="button18"></button>
+            </div>
+            <div class="row" id="row4">
+                <button class="button" id="button19"></button>
+                <button class="button" id="button20"></button>
+                <button class="button" id="button21"></button>
+                <button class="button" id="button22"></button>
+                <button class="button" id="button23"></button>
+                <button class="button" id="button24"></button>
+            </div>
+            <div class="row" id="row5">
+                <button class="button" id="button25"></button>
+                <button class="button" id="button26"></button>
+                <button class="button" id="button27"></button>
+                <button class="button" id="button28"></button>
+                <button class="button" id="button29"></button>
+                <button class="button" id="button30"></button>
+            </div>
+            <div class="row" id="row6">
+                <button class="button" id="button31"></button>
+                <button class="button" id="button32"></button>
+                <button class="button" id="button33"></button>
+                <button class="button" id="button34"></button>
+                <button class="button" id="button35"></button>
+                <button class="button" id="button36"></button>
+            </div>
+        </div>
+        <div id="time"></div>
+        <button id="start">Start Game</div>
+        <button><a id="ledboard" href="./leaderboard.html">Leader Board</a></div>
+        <button><a id="back" href="./index.html">Back</a></div>
+        
+    </main>
+    <script>
+        let start = document.getElementById("start");
+        start.addEventListener("click", start_game);
+
+
+        user_inputted_list = [];
+        const collection = document.getElementsByClassName("button");
+        for (index = 0; index < collection.length; index++) {
+            collection[index].addEventListener("click", e => {
+                var audio=new Audio("./button.mp3");
+                audio.play();
+                user_inputted_list.push(parseInt(e.target.getAttribute('id').slice(6)));
+                });
+            }
+
+        function display_button(num) {
+            document.getElementById("button" + num).style.backgroundColor = "#ccffff";
+        }
+
+        function normal_button(num) {
+            document.getElementById("button" + num).style.backgroundColor = "white";
+        }
+
+        function generate_random(random_numbers_list) {
+            flag = false;
+            while (flag != true) {
+                new_num = Math.floor((Math.random() * 36) + 1);
+                if (random_numbers_list.indexOf(new_num) === -1) {
+                    random_numbers_list.push(new_num);
+                    flag = true;
+                }
+            }
+            return random_numbers_list;
+        }
+
+        function display_stuff(level_number, random_numbers_list) {
+            let level = document.getElementById("level");
+            level.innerHTML = "level: " + level_number;
+            level.style.width = "9.7%";
+            let num = 0;
+            const cancel_variable = setInterval(function () {
+                if (num == random_numbers_list.length - 1) {
+                    clearInterval(cancel_variable);
+                }
+                display_button(random_numbers_list[num]);
+                setTimeout(normal_button, 300, random_numbers_list[num]);
+                num++;
+            }, 400);
+        }
+
+        function display_stuff_time(time_left_minutes, time_left_seconds) {
+            let time = document.getElementById("time");
+            time.innerHTML = "Time Remaining   " + time_left_minutes + ":" + ("0" + time_left_seconds).slice(-2);
+        }
+
+        
+        
+        function push_to_local_storage(score){
+            contents_of_local_storage=[]
+            for(i=1;i<=localStorage.length;i++){
+                contents_of_local_storage.push(parseInt(localStorage.getItem(i)));
+            }
+            contents_of_local_storage.push(score);
+            contents_of_local_storage.sort(function(a, b){return b-a;});
+            console.log(contents_of_local_storage);
+            j= contents_of_local_storage.length<5 ? contents_of_local_storage.length : 5; 
+            for(k=1;k<=j;k++){
+                localStorage.setItem(k,contents_of_local_storage[k-1]);
+            }
+        }
+        function continue_game() {
+            user_inputted_list = []
+            random_numbers_list = generate_random(random_numbers_list);
+            level_number++;
+            if (level_number <= 35) {
+                display_stuff(level_number, random_numbers_list);
+            }
+
+            const cancel_checking = setInterval(function () {
+                display_stuff_time(time_left_minutes, time_left_seconds);
+                time_checker += 1;
+                if (level_number > 35) {
+                    clearInterval(cancel_checking);
+                    let level = document.getElementById("level");
+                    level.innerHTML = "Game Not Started";
+                    level.style.width = "23%";
+                    let time = document.getElementById("time");
+                    time.innerHTML = "";
+                    push_to_local_storage(350 + (time_left_minutes * 60 + time_left_seconds))
+                    console.log(localStorage);
+                    var audio=new Audio("./termination.mp3");
+                    audio.play();
+                    alert("All levels passed, Your Score="(350 + (time_left_minutes * 60 + time_left_seconds)));
+                }
+                else if ((time_left_minutes == 0 && time_left_seconds == 0)) {
+                    clearInterval(cancel_checking);
+                    let level = document.getElementById("level");
+                    level.innerHTML = "Game Not Started";
+                    level.style.width = "23%";
+                    let time = document.getElementById("time");
+                    time.innerHTML = "";
+                    push_to_local_storage(level_number*10);
+                    console.log(localStorage);
+                    var audio=new Audio("./termination.mp3");
+                    audio.play();
+                    alert("Time ran out, Your Score=" + level_number * 10);
+                }
+                else if (user_inputted_list.length > 0) {
+                    if (user_inputted_list[user_inputted_list.length - 1] != random_numbers_list[user_inputted_list.length - 1]) {
+                        clearInterval(cancel_checking);
+                        end_game();
+                    }
+                    else if (user_inputted_list.length == random_numbers_list.length) {
+                        clearInterval(cancel_checking);
+                        continue_game();
+                    }
+                }
+                if (time_checker % 4 == 0) {
+                    if (time_left_seconds == 0) {
+                        time_left_minutes -= 1;
+                        time_left_seconds = 59;
+                    }
+                    else {
+                        time_left_seconds -= 1;
+                    }
+                }
+
+            }, 250);
+
+        }
+
+        function end_game() {
+            let level = document.getElementById("level");
+            level.innerHTML = "Game Not Started";
+            level.style.width = "23%";
+            let time = document.getElementById("time");
+            time.innerHTML = "";
+            push_to_local_storage(level_number * 10 + (time_left_minutes * 60 + time_left_seconds));
+            console.log(localStorage);
+            var audio=new Audio("./termination.mp3");
+            audio.play();
+            alert("Level Failed, Your Score=" + (level_number * 10 + (time_left_minutes * 60 + time_left_seconds)));
+
+        }
+        function start_game() {
+            level_number = 0;
+            random_numbers_list = [];
+            user_inputted_list = [];
+            time_left_minutes = 2;
+            time_left_seconds = 0;
+            time_checker = 0;
+            random_numbers_list = generate_random(random_numbers_list);
+            display_stuff(level_number, random_numbers_list);
+
+            const cancel_check = setInterval(function () {
+                time_checker += 1
+                display_stuff_time(time_left_minutes, time_left_seconds);
+                if ((time_left_minutes == 0 && time_left_seconds == 0)) {
+                    clearInterval(cancel_check);
+                    let level = document.getElementById("level");
+                    level.innerHTML = "Game Not Started";
+                    level.style.width = "23%";
+                    let time = document.getElementById("time");
+                    time.innerHTML = "";
+                    push_to_local_storage(0);
+                    console.log(localStorage);
+                    var audio=new Audio("./termination.mp3");
+                    audio.play();
+                    alert("Time ran out, Your Score=" + 0);
+                }
+                else if (user_inputted_list.length > 0) {
+                    if (random_numbers_list[0] == user_inputted_list[0]) {
+                        clearInterval(cancel_check);
+                        continue_game();
+                    }
+                    else {
+                        clearInterval(cancel_check);
+                        end_game();
+                    }
+                }
+                if (time_checker % 4 == 0) {
+                    if (time_left_seconds == 0) {
+                        time_left_minutes -= 1;
+                        time_left_seconds = 59;
+                    }
+                    else {
+                        time_left_seconds -= 1;
+                    }
+                }
+            }, 250);
+        }
+
+    </script>
+</body>
+
+</html>
